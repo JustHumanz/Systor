@@ -1,4 +1,4 @@
-package com.proyek.last;
+package com.proyek.systor;
 
 import org.junit.Test;
 

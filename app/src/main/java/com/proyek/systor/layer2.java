@@ -65,6 +65,26 @@ public class layer2 extends AppCompatActivity {
         final Button status = (Button) findViewById(R.id.res_stat);
 
 
+        new Thread() {
+            public void run() {
+                Integer i = 0;
+                while (i++ < 1000) {
+                    try {
+                        runOnUiThread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                status.performClick();
+                            }
+                        });
+                        Thread.sleep(30000);
+                    } catch (InterruptedException ee) {
+                        ee.printStackTrace();
+                    }
+                }
+            }
+        }.start();
+        /*
         ScheduledExecutorService scheduleTaskExecutor = Executors.newScheduledThreadPool(5);
 
         // This schedule a runnable task every 1 minutes
@@ -74,6 +94,7 @@ public class layer2 extends AppCompatActivity {
             }
         }, 0, 1, TimeUnit.MINUTES);
 
+         */
 
         new AsyncTask<Integer, Void, Void>(){
             @Override
@@ -889,7 +910,7 @@ public class layer2 extends AppCompatActivity {
             }
 
             ChannelExec channelssh = (ChannelExec) session.openChannel("exec");
-            channelssh.setCommand("lastlog | grep pts | head -n 5 | awk '{print $1}'");
+            channelssh.setCommand("last | head -n5 |  awk '{print $1\" \" $3\" \"$5\" \"$6\" \"$7}'");
             InputStream commandOutput = channelssh.getExtInputStream();
             final StringBuilder outputBuffer = new StringBuilder();
             StringBuilder errorBuffer = new StringBuilder();
